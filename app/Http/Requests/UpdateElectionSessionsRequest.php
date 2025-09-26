@@ -11,7 +11,7 @@ class UpdateElectionSessionsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateElectionSessionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:150|unique:election_sessions,name,' . $this->route('election_session')->id,
+            'start_date' => 'required|date_format:Y-m-d H:i:s',
+            'end_date'   => 'required|date_format:Y-m-d H:i:s|after_or_equal:start_date',
+            'status' => 'required|string|in:enable,disable',
         ];
     }
 }

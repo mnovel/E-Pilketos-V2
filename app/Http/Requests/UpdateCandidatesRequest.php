@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreElectionSessionsRequest extends FormRequest
+class UpdateCandidatesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,12 @@ class StoreElectionSessionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:150|unique:election_sessions,name',
-            'start_date' => 'required|date_format:Y-m-d H:i:s',
-            'end_date'   => 'required|date_format:Y-m-d H:i:s|after_or_equal:start_date',
-            'status' => 'required|string|in:enable,disable',
+            'name' => 'required|string|max:255|unique:candidates,name,' . $this->route('candidate')->id,
+            'vision' => 'required|string',
+            'mission' => 'required|string',
+            'featured_program' => 'required|string',
+            'order_number' => 'required|integer|unique:candidates,order_number,' . $this->route('candidate')->id,
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

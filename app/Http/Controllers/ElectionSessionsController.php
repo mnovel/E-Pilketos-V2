@@ -14,29 +14,29 @@ class ElectionSessionsController extends Controller
     public function index()
     {
         $sessions = ElectionSessions::all();
-        return $this->successResponse($sessions, 'Election sessions fetched successfully');
+        return $this->successResponse($sessions, 'Election sessions retrieved successfully');
     }
 
     public function show(ElectionSessions $electionSession)
     {
-        return $this->successResponse($electionSession, 'Election session details');
+        return $this->successResponse($electionSession, 'Election session details retrieved successfully');
     }
 
     public function store(StoreElectionSessionsRequest $request)
     {
         $session = ElectionSessions::create($request->validated());
-        return $this->successResponse($session, 'Election session created', 201);
+        return $this->successResponse($session, 'Election session created successfully', 201);
     }
 
     public function update(UpdateElectionSessionsRequest $request, ElectionSessions $electionSession)
     {
         $electionSession->update($request->validated());
-        return $this->successResponse($electionSession, 'Election session updated');
+        return $this->successResponse($electionSession, 'Election session updated successfully');
     }
 
     public function destroy(ElectionSessions $electionSession)
     {
         $electionSession->delete();
-        return $this->successResponse(null, 'Election session deleted');
+        return $this->successResponse(null, 'Election session deleted successfully');
     }
 }
