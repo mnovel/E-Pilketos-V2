@@ -26,4 +26,9 @@ class ElectionSessions extends Model
         'end_date' => 'datetime',
         'status' => 'string'
     ];
+
+    public function classes()
+    {
+        return $this->hasMany(Classes::class, 'election_session_id');
+    }
 }
