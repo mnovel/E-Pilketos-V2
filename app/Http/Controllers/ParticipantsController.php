@@ -38,7 +38,7 @@ class ParticipantsController extends Controller
             $user = User::create($request->validated()['user']);
             $participant = $user->participant()->create($request->validated()['participant']);
             DB::commit();
-            return $this->successResponse($participant, 'Participant created successfully');
+            return $this->successResponse(new ParticipantResource($participant), 'Participant created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->errorResponse('Failed to create participant: ' . $e->getMessage());
