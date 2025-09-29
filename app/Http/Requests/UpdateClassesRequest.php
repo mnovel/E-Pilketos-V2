@@ -24,7 +24,22 @@ class UpdateClassesRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:classes,name,' . $this->route('class')->id,
             'max_users' => 'required|integer|min:1|max:50',
-            'election_session_id' => 'required|uuid|exists:election_sessions,id',
+            'election_session' => 'required|uuid|exists:election_sessions,id',
         ];
+    }
+
+    /**
+     * Manipulate the validated data before returning
+     */
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated();
+
+        if (isset($data['election_session'])) {
+            $data['election_session_id'] = $data['election_session'];
+            unset($data['election_session']);
+        }
+
+        return $data;
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreClassesRequest extends FormRequest
+class UpdateParticipantsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,12 @@ class StoreClassesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:classes,name',
-            'max_users' => 'required|integer|min:1|max:50',
-            'election_session' => 'required|uuid|exists:election_sessions,id',
+            'user.name' => 'required|string',
+            'user.password' => 'required|string|min:6',
+            'user.status' =>  'nullable|in:active,inactive,panding',
+
+            'participant.voting_status' => 'nullable|in:waiting,in_progress,completed',
+            'participant.class' => 'required|uuid|exists:classes,id',
         ];
     }
 
@@ -35,9 +38,9 @@ class StoreClassesRequest extends FormRequest
     {
         $data = parent::validated();
 
-        if (isset($data['election_session'])) {
-            $data['election_session_id'] = $data['election_session'];
-            unset($data['election_session']);
+        if (isset($data['participant']['class'])) {
+            $data['participant']['class_id'] = $data['participant']['class'];
+            unset($data['participant']['class']);
         }
 
         return $data;

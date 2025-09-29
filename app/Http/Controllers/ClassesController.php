@@ -15,18 +15,12 @@ class ClassesController extends Controller
     public function index()
     {
         $class = Classes::with('electionSession')->get();
-        return $this->successResponse(
-            ClassResource::collection($class),
-            'Candidates retrieved successfully'
-        );
+        return $this->successResponse(ClassResource::collection($class), 'Candidates retrieved successfully');
     }
 
     public function show(Classes $class)
     {
-        return $this->successResponse(
-            new ClassResource($class),
-            'Candidate details retrieved successfully'
-        );
+        return $this->successResponse(new ClassResource($class), 'Candidate details retrieved successfully');
     }
 
 

@@ -35,4 +35,9 @@ class Classes extends Model
     {
         return $this->belongsTo(ElectionSessions::class, 'election_session_id');
     }
+
+    public function participants()
+    {
+        return $this->hasMany(Participants::class, 'class_id');
+    }
 }

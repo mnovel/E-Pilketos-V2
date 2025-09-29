@@ -15,13 +15,13 @@ class ClassResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'   => $this->id,
-            'name' => $this->name,
+            'id'        => $this->id,
+            'name'      => $this->name,
             'max_users' => $this->max_users,
             'election_session' => [
-                'id'     => $this->electionSession->id,
-                'name'   => $this->electionSession->name,
-                'status' => $this->electionSession->status,
+                'election_session_id'   => optional($this->electionSession)->id,
+                'name'                  => optional($this->electionSession)->name,
+                'status'                => optional($this->electionSession)->status,
             ]
         ];
     }
