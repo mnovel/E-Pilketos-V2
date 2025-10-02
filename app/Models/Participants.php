@@ -30,4 +30,9 @@ class Participants extends Model
     {
         return $this->belongsTo(Classes::class);
     }
+
+    public function barcodeCheckins()
+    {
+        return $this->hasMany(BarcodeCheckin::class);
+    }
 }

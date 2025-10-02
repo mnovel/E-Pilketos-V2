@@ -14,12 +14,6 @@ return new class extends Migration
         Schema::create('barcode_checkins', function (Blueprint $table) {
             $table->uuid('device_id')->primary();
             $table->uuid('token');
-            $table->foreignUuid('participant_id')
-                ->nullable()
-                ->default(null)
-                ->constrained('participants')
-                ->onDelete('cascade')
-                ->nullable();
             $table->timestamps();
         });
     }

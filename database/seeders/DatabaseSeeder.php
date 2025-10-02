@@ -32,5 +32,18 @@ class DatabaseSeeder extends Seeder
             'name' => '12 Mipa 1',
             'max_users' => 30,
         ]);
+
+        $user = User::create([
+            'name' => 'Peserta 1',
+            'email' => 'peserta1@example.com',
+            'password' => 'password',
+            'role' => 'voter',
+        ]);
+
+        $user->participant()->create([
+            'nisn' => '1234567890',
+            'voting_status' => 'waiting',
+            'class_id' => $class->id,
+        ]);
     }
 }

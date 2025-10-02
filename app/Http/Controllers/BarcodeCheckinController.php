@@ -20,7 +20,7 @@ class BarcodeCheckinController extends Controller
     public function generateDeviceId()
     {
         $deviceId = Str::uuid()->toString();
-        $token = bin2hex(random_bytes(16));
+        $token = bin2hex(random_bytes(8));
 
         $barcodeCheckin = BarcodeCheckin::create([
             'device_id' => $deviceId,
@@ -38,11 +38,11 @@ class BarcodeCheckinController extends Controller
         $barcodeCheckin = BarcodeCheckin::where('device_id', $deviceId)->first();
 
         if (!$barcodeCheckin) {
-            return $this->errorResponse('Barcode check-in not found', 404);
+            return $this->errorResponse('Barcode check-in not found');
         }
 
         $barcodeCheckin->update([
-            'token' => bin2hex(random_bytes(16))
+            'token' => bin2hex(random_bytes(8))
         ]);
 
         $barcodeData = "{$barcodeCheckin->device_id}|{$barcodeCheckin->token}";
