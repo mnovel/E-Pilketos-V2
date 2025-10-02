@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
 
         $user->participant()->create([
             'nisn' => '1234567890',
-            'voting_status' => 'waiting',
+            'voting_status' => null,
             'class_id' => $class->id,
         ]);
     }

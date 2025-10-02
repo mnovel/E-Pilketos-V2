@@ -22,30 +22,30 @@ class BarcodeBallotBoxController extends Controller
         $deviceId = Str::uuid()->toString();
         $token = bin2hex(random_bytes(8));
 
-        $barcodeCheckin = BarcodeBallotBox::create([
+        $barcodeBallotBox = BarcodeBallotBox::create([
             'device_id' => $deviceId,
             'token'     => $token,
         ]);
 
         return $this->successResponse(
-            ['device_id' => $barcodeCheckin->device_id, 'token' => $barcodeCheckin->token],
+            ['device_id' => $barcodeBallotBox->device_id, 'token' => $barcodeBallotBox->token],
             'Device ID generated successfully'
         );
     }
 
     public function generateBarcodeCheckin($deviceId)
     {
-        $barcodeCheckin = BarcodeBallotBox::where('device_id', $deviceId)->first();
+        $barcodeBallotBox = BarcodeBallotBox::where('device_id', $deviceId)->first();
 
-        if (!$barcodeCheckin) {
-            return $this->errorResponse('Barcode check-in not found');
+        if (!$barcodeBallotBox) {
+            return $this->errorResponse('Barcode Ballot Box not found');
         }
 
-        $barcodeCheckin->update([
+        $barcodeBallotBox->update([
             'token' => bin2hex(random_bytes(8))
         ]);
 
-        $barcodeData = "{$barcodeCheckin->device_id}|{$barcodeCheckin->token}";
+        $barcodeData = "{$barcodeBallotBox->device_id}|{$barcodeBallotBox->token}";
         $barcode = QrCode::format('png')->size(200)->generate($barcodeData);
         $barcodeBase64 = 'data:image/png;base64,' . base64_encode($barcode);
 

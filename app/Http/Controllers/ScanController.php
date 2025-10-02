@@ -40,12 +40,12 @@ class ScanController extends Controller
             return $this->errorResponse(null, 'Participant not found');
         }
 
-        if ($participant->voting_status !== 'waiting') {
+        if ($participant->voting_status !== null) {
             return $this->errorResponse(null, 'Participant already checked in');
         }
 
         $participant->update([
-            'voting_status' => 'in_progress',
+            'voting_status' => 'waiting',
         ]);
 
         return $this->successResponse(null, 'Check-in successful');
@@ -76,12 +76,16 @@ class ScanController extends Controller
             return $this->errorResponse(null, 'Participant not found');
         }
 
-        if ($participant->voting_status !== 'in_progress') {
-            return $this->errorResponse(null, 'Participant not in progress');
+        if ($participant->voting_status !== 'waiting') {
+            return $this->errorResponse(null, 'Participant not eligible to vote');
         }
 
         $ballotBox->update([
             'participant_id' => $participant->id,
+        ]);
+
+        $participant->update([
+            'voting_status' => 'in_progress',
         ]);
 
         return $this->successResponse(null, 'Ballot box scan successful');
