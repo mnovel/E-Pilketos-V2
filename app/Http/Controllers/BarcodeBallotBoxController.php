@@ -11,9 +11,15 @@ class BarcodeBallotBoxController extends Controller
 {
     use ApiResponse;
 
-    public function listActiveDevice()
+    public function listActiveDevice($deviceId = null)
     {
-        $activeDevices = BarcodeBallotBox::latest()->get();
+        $activeDevices = BarcodeBallotBox::query();
+
+        if ($deviceId) {
+            $activeDevices->where('device_id', $deviceId);
+        }
+
+        $activeDevices = $activeDevices->get();
         return $this->successResponse($activeDevices, 'Active devices retrieved successfully');
     }
 

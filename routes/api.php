@@ -28,7 +28,7 @@ Route::group(['prefix' => 'checkin'], function () {
 });
 
 Route::group(['prefix' => 'ballot-box'], function () {
-    Route::get('active-device', [BarcodeBallotBoxController::class, 'listActiveDevice']);
+    Route::get('active-device/{deviceId?}', [BarcodeBallotBoxController::class, 'listActiveDevice']);
     Route::get('generate', [BarcodeBallotBoxController::class, 'generateDeviceId']);
     Route::get('{deviceId}', [BarcodeBallotBoxController::class, 'generateBarcodeCheckin']);
 });

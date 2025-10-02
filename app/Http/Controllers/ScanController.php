@@ -44,6 +44,13 @@ class ScanController extends Controller
             return $this->errorResponse(null, 'Participant already checked in');
         }
 
+        $electionSession = $participant->class->electionSession->first();
+
+        $now = now();
+        if ($now->lt($electionSession->start_date) || $now->gt($electionSession->end_date)) {
+            return $this->errorResponse(null, 'Not within election session time');
+        }
+
         $participant->update([
             'voting_status' => 'waiting',
         ]);
