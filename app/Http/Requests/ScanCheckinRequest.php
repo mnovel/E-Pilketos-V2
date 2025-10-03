@@ -23,7 +23,22 @@ class ScanCheckinRequest extends FormRequest
     {
         return [
             'barcode_data' => 'required|string',
-            'participant_id' => 'required|exists:participants,id',
+            'participant' => 'required|exists:participants,id',
         ];
+    }
+
+    /**
+     * Manipulate the validated data before returning
+     */
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated();
+
+        if (isset($data['participant'])) {
+            $data['participant_id'] = $data['participant'];
+            unset($data['participant']);
+        }
+
+        return $data;
     }
 }

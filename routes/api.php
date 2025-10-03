@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarcodeCheckinController;
 use App\Http\Controllers\BarcodeBallotBoxController;
 use App\Http\Controllers\ScanController;
+use App\Http\Controllers\VotesController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -38,3 +39,5 @@ Route::group(['prefix' => 'scan'], function () {
     Route::post('checkin', [ScanController::class, 'scanCheckin']);
     Route::post('ballot-box', [ScanController::class, 'scanBallotBox']);
 });
+
+Route::get('votes', [VotesController::class, 'store']);

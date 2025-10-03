@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('vision');
             $table->text('mission');
             $table->string('featured_program');
-            $table->integer('order_number');
-            $table->string('photo');
+            $table->integer('order_number')->autoIncrement();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

@@ -17,7 +17,10 @@ class CandidatesFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'vision' => fake()->text(),
+            'mission' => fake()->text(),
+            'featured_program' => fake()->text(),
         ];
     }
 }

@@ -22,7 +22,28 @@ class StoreVotesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'candidate' => 'required|exists:candidates,id',
+            'participant' => 'required|exists:participants,id',
         ];
+    }
+
+    /**
+     * Manipulate the validated data before returning
+     */
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated();
+
+        if (isset($data['candidate'])) {
+            $data['candidate_id'] = $data['candidate'];
+            unset($data['candidate']);
+        }
+
+        if (isset($data['participant'])) {
+            $data['participant_id'] = $data['participant'];
+            unset($data['participant']);
+        }
+
+        return $data;
     }
 }
