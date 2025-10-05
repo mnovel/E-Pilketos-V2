@@ -23,6 +23,7 @@ class ParticipantResource extends JsonResource
                 'name'  => optional($this->user)->name,
                 'email' => optional($this->user)->email,
                 'role'  => optional($this->user)->role,
+                'status' => optional($this->user)->status,
             ],
         ];
     }

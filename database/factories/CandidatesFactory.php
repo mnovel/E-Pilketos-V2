@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Candidates>
@@ -17,10 +18,10 @@ class CandidatesFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'vision' => fake()->text(),
-            'mission' => fake()->text(),
-            'featured_program' => fake()->text(),
+            'name' => $this->faker->name(),
+            'vision' => $this->faker->sentence(10),
+            'mission' => $this->faker->paragraph(3),
+            'featured_program' => $this->faker->sentence(8),
         ];
     }
 }

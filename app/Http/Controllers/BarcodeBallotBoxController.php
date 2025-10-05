@@ -48,7 +48,8 @@ class BarcodeBallotBoxController extends Controller
         }
 
         $barcodeBallotBox->update([
-            'token' => bin2hex(random_bytes(8))
+            'token' => bin2hex(random_bytes(8)),
+            'participant_id' => null
         ]);
 
         $barcodeData = "{$barcodeBallotBox->device_id}|{$barcodeBallotBox->token}";

@@ -35,4 +35,9 @@ class Participants extends Model
     {
         return $this->hasMany(BarcodeCheckin::class);
     }
+
+    public function votes()
+    {
+        return $this->hasMany(Votes::class, 'participant_id');
+    }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreVotesRequest extends FormRequest
+class StoreRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,11 @@ class StoreVotesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'candidate' => 'required|exists:candidates,id',
-            'participant' => 'required|exists:participants,id|unique:votes,participant_id',
-            'device' => 'required|exists:barcode_ballot_boxes,device_id',
+            'user.name' => 'required|string',
+            'user.email' => 'required|string|email|unique:users,email',
+            'user.password' => 'required|string|min:6',
+            'participant.nisn' => 'required|digits:10|unique:participants,nisn',
+            'participant.class' => 'required|uuid|exists:classes,id',
         ];
     }
 
@@ -35,22 +37,10 @@ class StoreVotesRequest extends FormRequest
     {
         $data = parent::validated();
 
-        if (isset($data['candidate'])) {
-            $data['candidate_id'] = $data['candidate'];
-            unset($data['candidate']);
+        if (isset($data['participant']['class'])) {
+            $data['participant']['class_id'] = $data['participant']['class'];
+            unset($data['participant']['class']);
         }
-
-        if (isset($data['participant'])) {
-            $data['participant_id'] = $data['participant'];
-            unset($data['participant']);
-        }
-
-        if (isset($data['device'])) {
-            $data['device_id'] = $data['device'];
-            unset($data['device']);
-        }
-
-
 
         return $data;
     }

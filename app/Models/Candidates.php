@@ -29,4 +29,19 @@ class Candidates extends Model
         'featured_program' => 'string',
         'order_number'  => 'integer',
     ];
+
+    public function votes()
+    {
+        return $this->hasMany(Votes::class, 'candidate_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $maxOrder = self::max('order_number') ?? 0;
+            $model->order_number = $maxOrder + 1;
+        });
+    }
 }
