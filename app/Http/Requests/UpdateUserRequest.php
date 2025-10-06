@@ -24,7 +24,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => 'required|string',
             'password' => 'required|string|min:6',
-            'status' =>  'nullable|in:active,inactive,panding',
+            'status' =>  'nullable|in:active,inactive,pending',
             'role' =>  'required|in:admin,voter management'
         ];
     }

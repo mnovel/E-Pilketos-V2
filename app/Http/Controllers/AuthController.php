@@ -25,7 +25,7 @@ class AuthController extends Controller
         try {
             $user = User::create($request->validated()['user']);
             $participant = $user->participant()->create($request->validated()['participant']);
-            $user->status = 'panding';
+            $user->status = 'pending';
             $user->save();
             DB::commit();
             return $this->successResponse(new ParticipantResource($participant), 'Participant created successfully');
