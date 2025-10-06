@@ -20,7 +20,7 @@ use App\Http\Controllers\VotesController;
 
 Route::middleware(['auth:sanctum', 'role:admin'])->apiResource('election-sessions', ElectionSessionsController::class);
 Route::middleware(['auth:sanctum', 'role:admin'])->apiResource('candidates', CandidatesController::class);
-Route::middleware(['auth:sanctum', 'role:admin'])->apiResource('classes', ClassesController::class);
+Route::apiResource('classes', ClassesController::class);
 Route::middleware(['auth:sanctum', 'role:admin'])->apiResource('participants', ParticipantsController::class);
 Route::middleware(['auth:sanctum', 'role:admin'])->apiResource('users', UserController::class);
 
