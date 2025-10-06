@@ -48,5 +48,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Candidates::factory(3)->create();
+
+        $user = User::create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => 'admin',
+            'role' => 'admin',
+        ]);
+
+        $user = User::create([
+            'name' => 'Petugas',
+            'email' => 'petugas@gmail.com',
+            'password' => 'petugas',
+            'role' => 'voter management',
+        ]);
     }
 }
