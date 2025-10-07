@@ -44,6 +44,7 @@ class BarcodeCheckinController extends Controller
         $barcodeCheckin->update([
             'token' => bin2hex(random_bytes(8))
         ]);
+        $barcodeCheckin->save();
 
         $barcodeData = "{$barcodeCheckin->device_id}|{$barcodeCheckin->token}";
         $barcode = QrCode::format('png')->size(200)->generate($barcodeData);

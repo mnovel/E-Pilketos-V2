@@ -39,7 +39,7 @@ class BarcodeBallotBoxController extends Controller
         );
     }
 
-    public function generateBarcodeCheckin($deviceId)
+    public function generateBarcodeBallotBox($deviceId)
     {
         $barcodeBallotBox = BarcodeBallotBox::where('device_id', $deviceId)->first();
 
@@ -51,6 +51,7 @@ class BarcodeBallotBoxController extends Controller
             'token' => bin2hex(random_bytes(8)),
             'participant_id' => null
         ]);
+        $barcodeBallotBox->save();
 
         $barcodeData = "{$barcodeBallotBox->device_id}|{$barcodeBallotBox->token}";
         $barcode = QrCode::format('png')->size(200)->generate($barcodeData);
