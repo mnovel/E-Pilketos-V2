@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BarcodeCheckinResource;
 use App\Models\BarcodeCheckin;
+use App\Models\ElectionSessions;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -50,9 +52,21 @@ class BarcodeCheckinController extends Controller
         $barcode = QrCode::format('png')->size(200)->generate($barcodeData);
         $barcodeBase64 = 'data:image/png;base64,' . base64_encode($barcode);
 
+        $now = now();
+        $activeSession = ElectionSessions::with('class')
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>=', $now)
+            ->first();
+
+        $classes = $activeSession ? $activeSession->class : collect([]);
+
         return $this->successResponse(
-            ['barcode' => $barcodeBase64],
-            'Barcode generated successfully'
+            new BarcodeCheckinResource([
+                'classes'   => $classes,
+                'session'   => $activeSession,
+                'barcode'   => $barcodeBase64
+            ]),
+            'Barcode Checkin generated successfully'
         );
     }
 

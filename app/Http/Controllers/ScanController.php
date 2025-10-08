@@ -79,6 +79,7 @@ class ScanController extends Controller
         }
 
         $participant = Participants::find($data['participant_id']);
+
         if (!$participant) {
             return $this->errorResponse(null, 'Participant not found');
         }

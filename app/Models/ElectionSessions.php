@@ -27,7 +27,7 @@ class ElectionSessions extends Model
         'status' => 'string'
     ];
 
-    public function classes()
+    public function class()
     {
         return $this->hasMany(Classes::class, 'election_session_id');
     }

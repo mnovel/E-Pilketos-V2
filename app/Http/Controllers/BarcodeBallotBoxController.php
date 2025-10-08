@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BarcodeBallotBoxResource;
 use App\Models\BarcodeBallotBox;
+use App\Models\ElectionSessions;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -49,7 +51,7 @@ class BarcodeBallotBoxController extends Controller
 
         $barcodeBallotBox->update([
             'token' => bin2hex(random_bytes(8)),
-            'participant_id' => null
+            'participant_id' => null,
         ]);
         $barcodeBallotBox->save();
 
@@ -57,11 +59,24 @@ class BarcodeBallotBoxController extends Controller
         $barcode = QrCode::format('png')->size(200)->generate($barcodeData);
         $barcodeBase64 = 'data:image/png;base64,' . base64_encode($barcode);
 
+        $now = now();
+        $activeSession = ElectionSessions::with('class')
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>=', $now)
+            ->first();
+
+        $classes = $activeSession ? $activeSession->class : collect([]);
+
         return $this->successResponse(
-            ['barcode' => $barcodeBase64],
-            'Barcode generated successfully'
+            new BarcodeBallotBoxResource([
+                'classes'   => $classes,
+                'session'   => $activeSession,
+                'barcode'   => $barcodeBase64
+            ]),
+            'Barcode Ballot Box generated successfully'
         );
     }
+
 
     public function deleteDeviceId($deviceId)
     {
