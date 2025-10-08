@@ -32,7 +32,7 @@ class VotesController extends Controller
             $participant->voting_status = 'completed';
             $participant->save();
 
-            app(\App\Http\Controllers\BarcodeBallotBoxController::class)->generateBarcodeCheckin($device);
+            app(\App\Http\Controllers\BarcodeBallotBoxController::class)->generateBarcodeBallotBox($device);
 
             DB::commit();
             return $this->successResponse($vote, 'Vote recorded successfully');
