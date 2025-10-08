@@ -21,7 +21,8 @@ class ClassResource extends JsonResource
             'election_session' => [
                 'election_session_id'   => optional($this->electionSession)->id,
                 'name'                  => optional($this->electionSession)->name,
-                'status'                => optional($this->electionSession)->status,
+                'start_date'                => optional($this->electionSession)->start_date,
+                'end_date'                  => optional($this->electionSession)->end_date,
             ]
         ];
     }

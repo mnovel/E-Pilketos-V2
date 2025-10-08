@@ -67,6 +67,10 @@ class AuthController extends Controller
             return $this->errorResponse('Invalid credentials', 401);
         }
 
+        if ($user->status !== 'active') {
+            return $this->errorResponse('User account is not active');
+        }
+
         if ($user->role === 'admin') {
             $user->tokens()->delete();
         }
