@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classes;
 use App\Http\Requests\StoreClassesRequest;
 use App\Http\Requests\UpdateClassesRequest;
+use App\Http\Resources\ClassDetailResource;
 use App\Http\Resources\ClassResource;
 use App\Traits\ApiResponse;
 
@@ -25,7 +26,7 @@ class ClassesController extends Controller
 
     public function show(Classes $class)
     {
-        return $this->successResponse(new ClassResource($class), 'Class details retrieved successfully');
+        return $this->successResponse(new ClassDetailResource($class), 'Class details retrieved successfully');
     }
 
 

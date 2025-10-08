@@ -18,19 +18,16 @@ class ParticipantDetailResource extends JsonResource
             'id'            => $this->id,
             'nisn'          => $this->nisn,
             'voting_status' => $this->voting_status,
-
             'user' => [
                 'user_id'   => optional($this->user)->id,
                 'name'      => optional($this->user)->name,
                 'email'     => optional($this->user)->email,
                 'role'      => optional($this->user)->role,
             ],
-
             'class' => [
                 'class_id'  => optional($this->class)->id,
                 'name'      => optional($this->class)->name,
             ],
-
             'election_session' => [
                 'election_session_id'   => optional(optional($this->class)->electionSession)->id,
                 'name'                  => optional(optional($this->class)->electionSession)->name,

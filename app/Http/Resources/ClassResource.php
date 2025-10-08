@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ClassResource extends JsonResource
 {
@@ -23,7 +24,7 @@ class ClassResource extends JsonResource
                 'name'                  => optional($this->electionSession)->name,
                 'start_date'                => optional($this->electionSession)->start_date,
                 'end_date'                  => optional($this->electionSession)->end_date,
-            ]
+            ],
         ];
     }
 }
