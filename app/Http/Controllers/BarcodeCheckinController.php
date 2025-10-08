@@ -55,4 +55,17 @@ class BarcodeCheckinController extends Controller
             'Barcode generated successfully'
         );
     }
+
+    public function deleteDeviceId($deviceId)
+    {
+        $barcodeCheckin = BarcodeCheckin::where('device_id', $deviceId)->first();
+
+        if (!$barcodeCheckin) {
+            return $this->errorResponse('Device ID not found');
+        }
+
+        $barcodeCheckin->delete();
+
+        return $this->successResponse(null, 'Device ID deleted successfully');
+    }
 }

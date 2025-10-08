@@ -62,4 +62,17 @@ class BarcodeBallotBoxController extends Controller
             'Barcode generated successfully'
         );
     }
+
+    public function deleteDeviceId($deviceId)
+    {
+        $barcodeBallotBox = BarcodeBallotBox::where('device_id', $deviceId)->first();
+
+        if (!$barcodeBallotBox) {
+            return $this->errorResponse('Device ID not found');
+        }
+
+        $barcodeBallotBox->delete();
+
+        return $this->successResponse(null, 'Device ID deleted successfully');
+    }
 }

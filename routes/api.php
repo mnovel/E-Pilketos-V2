@@ -28,12 +28,14 @@ Route::middleware(['auth:sanctum', 'role:voter management'])->prefix('checkin')-
     Route::get('active-device', [BarcodeCheckinController::class, 'listActiveDevice']);
     Route::get('generate', [BarcodeCheckinController::class, 'generateDeviceId']);
     Route::get('{deviceId}', [BarcodeCheckinController::class, 'generateBarcodeCheckin']);
+    Route::delete('{deviceId}', [BarcodeCheckinController::class, 'deleteDeviceId']);
 });
 
 Route::middleware(['auth:sanctum', 'role:voter management'])->prefix('ballot-box')->group(function () {
     Route::get('active-device/{deviceId?}', [BarcodeBallotBoxController::class, 'listActiveDevice']);
     Route::get('generate', [BarcodeBallotBoxController::class, 'generateDeviceId']);
     Route::get('{deviceId}', [BarcodeBallotBoxController::class, 'generateBarcodeBallotBox']);
+    Route::delete('{deviceId}', [BarcodeBallotBoxController::class, 'deleteDeviceId']);
 });
 
 Route::middleware(['auth:sanctum', 'role:voter'])->prefix('scan')->group(function () {
