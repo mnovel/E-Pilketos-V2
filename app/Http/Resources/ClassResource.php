@@ -22,8 +22,12 @@ class ClassResource extends JsonResource
             'election_session' => [
                 'election_session_id'   => optional($this->electionSession)->id,
                 'name'                  => optional($this->electionSession)->name,
-                'start_date'                => optional($this->electionSession)->start_date,
-                'end_date'                  => optional($this->electionSession)->end_date,
+                'start_date'            => optional($this->electionSession)->start_date,
+                'end_date'              => optional($this->electionSession)->end_date,
+            ],
+            'participants_info' => [
+                'pending'   => $this->participants->where('user.status', 'pending')->count(),
+                'active'  => $this->participants->where('user.status', 'active')->count(),
             ],
         ];
     }
