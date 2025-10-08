@@ -12,6 +12,11 @@ class CandidatesController extends Controller
 {
     use ApiResponse;
 
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum', 'role:admin'])->except(['index']);
+    }
+
     public function index()
     {
         $candidates = Candidates::all();
