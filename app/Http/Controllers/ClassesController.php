@@ -20,7 +20,7 @@ class ClassesController extends Controller
 
     public function index()
     {
-        $class = Classes::with('electionSession')->get();
+        $class = Classes::with(['electionSession', 'participants.user'])->get();
         return $this->successResponse(ClassResource::collection($class), 'Classes retrieved successfully');
     }
 

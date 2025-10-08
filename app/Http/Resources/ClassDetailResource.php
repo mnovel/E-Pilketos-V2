@@ -27,6 +27,7 @@ class ClassDetailResource extends JsonResource
             'participants_info' => [
                 'pending'   => $this->participants->where('user.status', 'pending')->count(),
                 'active'  => $this->participants->where('user.status', 'active')->count(),
+                'inactive'  => $this->participants->where('user.status', 'inactive')->count(),
             ],
             'participants_votes_info' => [
                 'not_started'   => $this->participants->where('voting_status', null)->count(),

@@ -28,6 +28,7 @@ class ClassResource extends JsonResource
             'participants_info' => [
                 'pending'   => $this->participants->where('user.status', 'pending')->count(),
                 'active'  => $this->participants->where('user.status', 'active')->count(),
+                'total'     => $this->participants->whereIn('user.status', ['active', 'pending'])->count(),
             ],
         ];
     }
