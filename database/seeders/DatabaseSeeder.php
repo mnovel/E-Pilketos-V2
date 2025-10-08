@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-
         $session = ElectionSessions::create([
             'name' => 'Session 1',
             'start_date' => now(),
@@ -34,18 +33,20 @@ class DatabaseSeeder extends Seeder
             'max_users' => 30,
         ]);
 
-        $user = User::create([
-            'name' => 'Peserta 1',
-            'email' => 'peserta1@example.com',
-            'password' => 'password',
-            'role' => 'voter',
-        ]);
+        for ($i = 1; $i <= 30; $i++) {
+            $user = User::create([
+                'name' => "Peserta {$i}",
+                'email' => "peserta{$i}@example.com",
+                'password' => bcrypt('password'),
+                'role' => 'voter',
+            ]);
 
-        $user->participant()->create([
-            'nisn' => '1234567890',
-            'voting_status' => null,
-            'class_id' => $class->id,
-        ]);
+            $user->participant()->create([
+                'nisn' => str_pad($i, 10, '0', STR_PAD_LEFT),
+                'voting_status' => null,
+                'class_id' => $class->id,
+            ]);
+        }
 
         Candidates::factory(3)->create();
 
