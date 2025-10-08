@@ -35,7 +35,8 @@ class CandidatesController extends Controller
         if ($request->hasFile('photo')) {
             $ext = $request->file('photo')->getClientOriginalExtension();
             $fileName = "candidate_{$data['order_number']}." . $ext;
-            $data['photo'] = $request->file('photo')->storeAs('candidates', $fileName, 'public');
+            $path = $request->file('photo')->storeAs('candidates', $fileName, 'public');
+            $data['photo'] = 'storage/' . $path;
         }
 
         $candidate = Candidates::create($data);
@@ -55,7 +56,8 @@ class CandidatesController extends Controller
 
             $ext = $request->file('photo')->getClientOriginalExtension();
             $fileName = "candidate_{$data['order_number']}." . $ext;
-            $data['photo'] = $request->file('photo')->storeAs('candidates', $fileName, 'public');
+            $path = $request->file('photo')->storeAs('candidates', $fileName, 'public');
+            $data['photo'] = 'storage/' . $path;
         }
 
         $candidate->update($data);
