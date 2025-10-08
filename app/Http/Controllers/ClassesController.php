@@ -32,7 +32,7 @@ class ClassesController extends Controller
     public function store(StoreClassesRequest $request)
     {
         $class = Classes::create($request->validated());
-        return $this->successResponse(new ClassResource($class), 'Class created successfully', 201);
+        return $this->successResponse(new ClassResource($class), 'Class created successfully');
     }
 
     public function update(UpdateClassesRequest $request, Classes $class)

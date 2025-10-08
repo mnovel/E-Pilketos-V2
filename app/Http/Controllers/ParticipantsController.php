@@ -7,6 +7,7 @@ use App\Http\Requests\StoreParticipantsRequest;
 use App\Http\Requests\UpdateParticipantsRequest;
 use App\Http\Resources\ParticipantDetailResource;
 use App\Http\Resources\ParticipantResource;
+use App\Models\Classes;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\DB;
@@ -34,14 +35,31 @@ class ParticipantsController extends Controller
     public function store(StoreParticipantsRequest $request)
     {
         DB::beginTransaction();
+
         try {
-            $user = User::create($request->validated()['user']);
-            $participant = $user->participant()->create($request->validated()['participant']);
+            $validated = $request->validated();
+
+            $class = Classes::findOrFail($validated['participant']['class_id']);
+
+            if ($class->participants()->count() >= $class->max_users) {
+                return $this->errorResponse(null, 'Class is full');
+            }
+
+            $user = User::create($validated['user']);
+
+            $user->update(['status' => 'pending']);
+
+            $participant = $user->participant()->create($validated['participant']);
+
             DB::commit();
-            return $this->successResponse(new ParticipantResource($participant), 'Participant created successfully');
+
+            return $this->successResponse(
+                new ParticipantResource($participant),
+                'Participant created successfully'
+            );
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse('Failed to create participant: ' . $e->getMessage());
+            return $this->errorResponse('Failed to create participant: ' . $e->getMessage(), 500);
         }
     }
 
