@@ -17,7 +17,7 @@ class ParticipantsController extends Controller
 
     public function index()
     {
-        $participants = Participants::with('user')
+        $participants = Participants::with(['user', 'class'])
             ->whereHas('user', function ($query) {
                 $query->where('role', 'voter');
             })
