@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
                 'email' => "peserta{$i}@example.com",
                 'password' => bcrypt('password'),
                 'role' => 'voter',
+                'status' => 'pending',
             ]);
 
             $user->participant()->create([
