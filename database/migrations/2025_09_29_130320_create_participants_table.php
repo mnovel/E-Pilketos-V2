@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('participants', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nisn', 10)->unique();
+            $table->string('nis', 10)->unique();
             $table->enum('voting_status', ['waiting', 'in_progress', 'completed'])->default(null)->nullable();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignUuid('class_id')->constrained('classes')->onDelete('cascade');

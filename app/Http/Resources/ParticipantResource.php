@@ -16,7 +16,7 @@ class ParticipantResource extends JsonResource
     {
         return [
             'id'            => $this->id,
-            'nisn'          => $this->nisn,
+            'nis'          => $this->nis,
             'voting_status' => $this->voting_status,
             'user'          => [
                 'user_id'   => optional($this->user)->id,

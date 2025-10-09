@@ -27,7 +27,7 @@ class StoreParticipantsRequest extends FormRequest
             'user.password' => 'required|string|min:6',
             'user.status' =>  'nullable|in:active,inactive,pending',
 
-            'participant.nisn' => 'required|digits:10|unique:participants,nisn',
+            'participant.nis' => 'required|digits:10|unique:participants,nis',
             'participant.voting_status' => 'nullable|in:waiting,in_progress,completed',
             'participant.class' => 'required|uuid|exists:classes,id',
         ];

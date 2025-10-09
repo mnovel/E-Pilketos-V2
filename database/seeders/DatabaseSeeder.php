@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             ]);
 
             $user->participant()->create([
-                'nisn' => str_pad($i, 10, '0', STR_PAD_LEFT),
+                'nis' => str_pad($i, 10, '0', STR_PAD_LEFT),
                 'voting_status' => null,
                 'class_id' => $class->id,
             ]);

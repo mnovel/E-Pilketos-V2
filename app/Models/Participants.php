@@ -15,7 +15,7 @@ class Participants extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'nisn',
+        'nis',
         'voting_status',
         'user_id',
         'class_id',
