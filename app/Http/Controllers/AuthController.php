@@ -72,7 +72,7 @@ class AuthController extends Controller
             return $this->errorResponse(null, 'Invalid credentials');
         }
 
-        if ($user->status !== 'active') {
+        if ($user->status === 'inactive') {
             return $this->errorResponse(null, 'User account is not active');
         }
 
