@@ -12,8 +12,10 @@ class ParticipantResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(Request $request)
     {
+
+        // return $this;
         return [
             'id'            => $this->id,
             'nis'          => $this->nis,

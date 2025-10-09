@@ -10,6 +10,7 @@ use App\Http\Resources\ParticipantResource;
 use App\Models\Classes;
 use App\Models\User;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ParticipantsController extends Controller
@@ -22,15 +23,45 @@ class ParticipantsController extends Controller
         $this->middleware('role:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $participants = Participants::with(['user', 'class'])
-            ->whereHas('user', function ($query) {
-                $query->where('role', 'voter');
-            })
-            ->get();
-        return $this->successResponse(ParticipantResource::collection($participants), 'Participants retrieved successfully');
+        $query = Participants::with(['user', 'class'])
+            ->whereHas('user', function ($q) {
+                $q->where('role', 'voter');
+            });
+
+        if ($request->has('class_id')) {
+            $query->where('class_id', $request->class_id);
+        }
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('nis', 'like', "%{$search}%");
+            });
+        }
+
+        $participantsPaginator = $query->paginate(10);
+
+        $meta = [
+            'current_page' => $participantsPaginator->currentPage(),
+            'last_page'    => $participantsPaginator->lastPage(),
+            'per_page'     => $participantsPaginator->perPage(),
+            'total'        => $participantsPaginator->total(),
+        ];
+
+        $participants = ParticipantResource::collection($participantsPaginator);
+
+        return $this->successResponse(
+            [
+                'participants' => $participants,
+                'meta' => $meta
+            ],
+            'Participants retrieved successfully'
+        );
     }
+
 
     public function show(Participants $participant)
     {
@@ -70,14 +101,25 @@ class ParticipantsController extends Controller
     public function update(UpdateParticipantsRequest $request, Participants $participant)
     {
         DB::beginTransaction();
-
         try {
             if ($request->has('user')) {
                 $participant->user->update($request->validated()['user']);
+                $status = $request->validated()['user']['status'];
+                if ($status !== 'active') {
+                    $participant->voting_status = null;
+                    $participant->save();
+                    $participant->votes()->delete();
+                }
             }
 
             if ($request->has('participant')) {
                 $participant->update($request->validated()['participant']);
+                $is_reset = $request->validated()['participant']['is_reset'];
+                if ($is_reset) {
+                    $participant->voting_status = null;
+                    $participant->save();
+                    $participant->votes()->delete();
+                }
             }
 
             DB::commit();

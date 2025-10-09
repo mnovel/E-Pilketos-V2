@@ -23,11 +23,11 @@ class UpdateParticipantsRequest extends FormRequest
     {
         return [
             'user.name' => 'required|string',
-            'user.password' => 'required|string|min:6',
-            'user.status' =>  'nullable|in:active,inactive,pending',
-
-            'participant.voting_status' => 'nullable|in:waiting,in_progress,completed',
+            'user.email' => 'required|string|email|unique:users,email,' . $this->route('participant')->user_id,
+            'user.password' => 'nullable|string|min:6',
+            'user.status' =>  'required|in:active,inactive,pending',
             'participant.class' => 'required|uuid|exists:classes,id',
+            'participant.is_reset' => 'required|boolean',
         ];
     }
 

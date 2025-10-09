@@ -26,19 +26,41 @@ class DatabaseSeeder extends Seeder
             'max_users' => 30,
         ]);
 
+        $class2 = $session->class()->create([
+            'name' => '12 Mipa 2',
+            'max_users' => 30,
+        ]);
+
+
         for ($i = 1; $i <= 30; $i++) {
             $user = User::create([
                 'name' => "Peserta {$i}",
                 'email' => "peserta{$i}@example.com",
                 'password' => bcrypt('password'),
                 'role' => 'voter',
-                'status' => 'pending',
+                'status' => 'active',
             ]);
 
             $user->participant()->create([
                 'nis' => str_pad($i, 10, '0', STR_PAD_LEFT),
                 'voting_status' => null,
                 'class_id' => $class->id,
+            ]);
+        }
+
+        for ($i = 31; $i <= 60; $i++) {
+            $user = User::create([
+                'name' => "Peserta {$i}",
+                'email' => "peserta{$i}@example.com",
+                'password' => bcrypt('password'),
+                'role' => 'voter',
+                'status' => 'active',
+            ]);
+
+            $user->participant()->create([
+                'nis' => str_pad($i, 10, '0', STR_PAD_LEFT),
+                'voting_status' => null,
+                'class_id' => $class2->id,
             ]);
         }
 
