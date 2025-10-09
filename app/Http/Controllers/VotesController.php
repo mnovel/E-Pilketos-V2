@@ -31,7 +31,7 @@ class VotesController extends Controller
 
             if ($participant->voting_status != 'in_progress') {
                 DB::rollBack();
-                return $this->errorResponse('Participant is not allowed to vote, voting status is ' . $participant->voting_status);
+                return $this->errorResponse(null, 'Participant is not allowed to vote, voting status is ' . $participant->voting_status);
             }
 
             $vote = Votes::create($validated);
@@ -46,7 +46,7 @@ class VotesController extends Controller
             return $this->successResponse($vote, 'Vote recorded successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse('Failed to record vote: ' . $e->getMessage());
+            return $this->errorResponse(null, 'Failed to record vote: ' . $e->getMessage());
         }
     }
 }

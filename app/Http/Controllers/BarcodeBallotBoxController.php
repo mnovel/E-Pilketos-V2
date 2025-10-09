@@ -52,7 +52,7 @@ class BarcodeBallotBoxController extends Controller
         $barcodeBallotBox = BarcodeBallotBox::where('device_id', $deviceId)->first();
 
         if (!$barcodeBallotBox) {
-            return $this->errorResponse('Barcode Ballot Box not found');
+            return $this->errorResponse(null, 'Barcode Ballot Box not found');
         }
 
         $barcodeBallotBox->update([
@@ -89,7 +89,7 @@ class BarcodeBallotBoxController extends Controller
         $barcodeBallotBox = BarcodeBallotBox::where('device_id', $deviceId)->first();
 
         if (!$barcodeBallotBox) {
-            return $this->errorResponse('Device ID not found');
+            return $this->errorResponse(null, 'Device ID not found');
         }
 
         $barcodeBallotBox->delete();

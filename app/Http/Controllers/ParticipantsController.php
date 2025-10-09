@@ -94,7 +94,7 @@ class ParticipantsController extends Controller
             );
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse('Failed to create participant: ' . $e->getMessage(), 500);
+            return $this->errorResponse($e->getMessage(), 'Failed to create participant: ');
         }
     }
 
@@ -130,7 +130,7 @@ class ParticipantsController extends Controller
             );
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse('Failed to update participant: ' . $e->getMessage());
+            return $this->errorResponse($e->getMessage(), 'Failed to update participant: ');
         }
     }
 
@@ -145,7 +145,7 @@ class ParticipantsController extends Controller
             return $this->successResponse(null, 'Participant deleted successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse('Failed to delete participant: ' . $e->getMessage());
+            return $this->errorResponse($e->getMessage(), 'Failed to delete participant: ');
         }
     }
 }

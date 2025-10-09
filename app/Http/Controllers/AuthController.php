@@ -52,7 +52,7 @@ class AuthController extends Controller
             );
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorResponse('Failed to create participant: ' . $e->getMessage(), 500);
+            return $this->errorResponse($e->getMessage(), 'Failed to create participant');
         }
     }
 
@@ -69,11 +69,11 @@ class AuthController extends Controller
         $user = User::where('email', $validated['email'])->first();
 
         if (! $user || ! Hash::check($validated['password'], $user->password)) {
-            return $this->errorResponse(false, 'Invalid credentials');
+            return $this->errorResponse(null, 'Invalid credentials');
         }
 
         if ($user->status !== 'active') {
-            return $this->errorResponse('User account is not active');
+            return $this->errorResponse(null, 'User account is not active');
         }
 
         if ($user->role === 'admin') {
@@ -121,7 +121,7 @@ class AuthController extends Controller
         $user = User::where('email', $validated['email'])->first();
 
         if (! $user) {
-            return $this->errorResponse('User not found', 404);
+            return $this->errorResponse(null, 'User not found');
         }
 
         // (Optional) verify token validity here

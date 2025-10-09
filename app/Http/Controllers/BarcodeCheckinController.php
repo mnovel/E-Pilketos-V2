@@ -46,7 +46,7 @@ class BarcodeCheckinController extends Controller
         $barcodeCheckin = BarcodeCheckin::where('device_id', $deviceId)->first();
 
         if (!$barcodeCheckin) {
-            return $this->errorResponse('Barcode check-in not found');
+            return $this->errorResponse(null, 'Barcode check-in not found');
         }
 
         $barcodeCheckin->update([
@@ -81,7 +81,7 @@ class BarcodeCheckinController extends Controller
         $barcodeCheckin = BarcodeCheckin::where('device_id', $deviceId)->first();
 
         if (!$barcodeCheckin) {
-            return $this->errorResponse('Device ID not found');
+            return $this->errorResponse(null, 'Device ID not found');
         }
 
         $barcodeCheckin->delete();

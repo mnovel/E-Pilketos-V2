@@ -46,7 +46,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->role === 'voter') {
-            return $this->errorResponse('Voter users cannot be deleted');
+            return $this->errorResponse(null, 'Voter users cannot be deleted');
         }
         $user->delete();
         return $this->successResponse(null, 'User deleted successfully');
