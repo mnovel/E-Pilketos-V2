@@ -69,7 +69,7 @@ class AuthController extends Controller
         $user = User::where('email', $validated['email'])->first();
 
         if (! $user || ! Hash::check($validated['password'], $user->password)) {
-            return $this->errorResponse('Invalid credentials', 401);
+            return $this->errorResponse(false, 'Invalid credentials');
         }
 
         if ($user->status !== 'active') {
@@ -82,11 +82,11 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return $this->successResponse('Login successful', [
+        return $this->successResponse([
             'user'  => $user,
             'token' => $token,
             'token_type' => 'Bearer',
-        ]);
+        ], 'Login successful',);
     }
 
     /**
