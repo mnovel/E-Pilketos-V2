@@ -15,68 +15,68 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $session = ElectionSessions::create([
-            'name' => 'Session 1',
-            'start_date' => now(),
-            'end_date' => now()->addDays(7),
-        ]);
+        // $session = ElectionSessions::create([
+        //     'name' => 'Session 1',
+        //     'start_date' => now(),
+        //     'end_date' => now()->addDays(7),
+        // ]);
 
-        $class = $session->class()->create([
-            'name' => '12 Mipa 1',
-            'max_users' => 30,
-        ]);
+        // $class = $session->class()->create([
+        //     'name' => '12 Mipa 1',
+        //     'max_users' => 30,
+        // ]);
 
-        $class2 = $session->class()->create([
-            'name' => '12 Mipa 2',
-            'max_users' => 30,
-        ]);
+        // $class2 = $session->class()->create([
+        //     'name' => '12 Mipa 2',
+        //     'max_users' => 30,
+        // ]);
 
 
-        for ($i = 1; $i <= 30; $i++) {
-            $user = User::create([
-                'name' => "Peserta {$i}",
-                'email' => "peserta{$i}@example.com",
-                'password' => bcrypt('password'),
-                'role' => 'voter',
-                'status' => 'active',
-            ]);
+        // for ($i = 1; $i <= 30; $i++) {
+        //     $user = User::create([
+        //         'name' => "Peserta {$i}",
+        //         'email' => "peserta{$i}@example.com",
+        //         'password' => bcrypt('password'),
+        //         'role' => 'voter',
+        //         'status' => 'active',
+        //     ]);
 
-            $user->participant()->create([
-                'nis' => str_pad($i, 10, '0', STR_PAD_LEFT),
-                'voting_status' => null,
-                'class_id' => $class->id,
-            ]);
-        }
+        //     $user->participant()->create([
+        //         'nis' => str_pad($i, 10, '0', STR_PAD_LEFT),
+        //         'voting_status' => null,
+        //         'class_id' => $class->id,
+        //     ]);
+        // }
 
-        for ($i = 31; $i <= 60; $i++) {
-            $user = User::create([
-                'name' => "Peserta {$i}",
-                'email' => "peserta{$i}@example.com",
-                'password' => bcrypt('password'),
-                'role' => 'voter',
-                'status' => 'active',
-            ]);
+        // for ($i = 31; $i <= 60; $i++) {
+        //     $user = User::create([
+        //         'name' => "Peserta {$i}",
+        //         'email' => "peserta{$i}@example.com",
+        //         'password' => bcrypt('password'),
+        //         'role' => 'voter',
+        //         'status' => 'active',
+        //     ]);
 
-            $user->participant()->create([
-                'nis' => str_pad($i, 10, '0', STR_PAD_LEFT),
-                'voting_status' => null,
-                'class_id' => $class2->id,
-            ]);
-        }
+        //     $user->participant()->create([
+        //         'nis' => str_pad($i, 10, '0', STR_PAD_LEFT),
+        //         'voting_status' => null,
+        //         'class_id' => $class2->id,
+        //     ]);
+        // }
 
-        Candidates::factory(3)->create();
+        // Candidates::factory(3)->create();
 
         $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => 'admin123',
+            'password' => 't0jEKc3*A43C@&',
             'role' => 'admin',
         ]);
 
         $user = User::create([
             'name' => 'Petugas',
             'email' => 'petugas@gmail.com',
-            'password' => 'petugas123',
+            'password' => '&6Zb2k3@w*541i',
             'role' => 'voter management',
         ]);
     }
