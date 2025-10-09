@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('election_sessions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->enum('status', ['enable', 'disable'])->default('enable');
             $table->timestamps();
         });
