@@ -11,6 +11,12 @@ class ElectionSessionsController extends Controller
 {
     use ApiResponse;
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+        $this->middleware('role:admin');
+    }
+
     public function index()
     {
         $sessions = ElectionSessions::all();

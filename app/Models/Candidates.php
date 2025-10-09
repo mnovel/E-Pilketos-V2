@@ -30,6 +30,11 @@ class Candidates extends Model
         'order_number'  => 'integer',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function votes()
     {
         return $this->hasMany(Votes::class, 'candidate_id');

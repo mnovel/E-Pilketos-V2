@@ -17,6 +17,11 @@ class AuthController extends Controller
 {
     use ApiResponse;
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->only(['logout', 'me']);
+    }
+
     /**
      * Handle user registration
      */

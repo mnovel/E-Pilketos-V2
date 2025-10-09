@@ -13,6 +13,12 @@ class BarcodeBallotBoxController extends Controller
 {
     use ApiResponse;
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+        $this->middleware('role:voter management');
+    }
+
     public function listActiveDevice($deviceId = null)
     {
         $activeDevices = BarcodeBallotBox::query();

@@ -13,6 +13,12 @@ class VotesController extends Controller
 {
     use ApiResponse;
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+        $this->middleware('role:voter management')->only('store');
+    }
+
     public function store(StoreVotesRequest $request)
     {
         DB::beginTransaction();

@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Traits\ApiResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -15,42 +16,59 @@ class Handler extends ExceptionHandler
     use ApiResponse;
 
     /**
-     * Convert a validation exception into a JSON response.
-     */
-    protected function invalidJson($request, ValidationException $exception)
-    {
-        return $this->errorResponse(
-            $exception->errors(),
-            'Validation failed',
-            $exception->status
-        );
-    }
-
-    /**
      * Render an exception into an HTTP response.
      */
     public function render($request, Throwable $e)
     {
         if ($request->expectsJson()) {
 
-            // 🔹 Validation sudah ditangani di invalidJson()
-
-            // 🔹 404
-            if ($e instanceof NotFoundHttpException) {
-                return $this->errorResponse(null, 'Not Found', 404);
+            // ✅ Tangani ModelNotFoundException langsung
+            if ($e instanceof ModelNotFoundException) {
+                $model = class_basename($e->getModel());
+                return $this->errorResponse(null, "{$model} not found", 404);
             }
 
-            // 🔹 401 Unauthorized
+            // ✅ Tangani NotFoundHttpException yang membungkus ModelNotFoundException
+            if ($e instanceof NotFoundHttpException && $e->getPrevious() instanceof ModelNotFoundException) {
+                $model = class_basename($e->getPrevious()->getModel());
+                return $this->errorResponse(null, "{$model} not found", 404);
+            }
+
+            // ✅ Tangani NotFoundHttpException murni (route tidak ditemukan)
+            if ($e instanceof NotFoundHttpException) {
+                $message = $e->getMessage();
+
+                // Deteksi pesan model not found bawaan Laravel
+                if (str_contains($message, 'No query results for model')) {
+                    preg_match('/\[App\\\\Models\\\\(.*?)\]/', $message, $matches);
+                    $model = $matches[1] ?? 'Resource';
+                    return $this->errorResponse(null, "{$model} not found", 404);
+                }
+
+                // Kalau bukan model, berarti route
+                return $this->errorResponse(null, 'Route not found', 404);
+            }
+
+            // ✅ Unauthorized
             if ($e instanceof UnauthorizedHttpException) {
                 return $this->errorResponse(null, 'Unauthorized', 401);
             }
 
-            // 🔹 403 Forbidden
+            // ✅ Forbidden
             if ($e instanceof AccessDeniedHttpException) {
                 return $this->errorResponse(null, 'Forbidden', 403);
             }
 
-            // 🔹 Default error (500 atau lainnya)
+            // ✅ Validasi
+            if ($e instanceof ValidationException) {
+                return $this->errorResponse(
+                    $e->errors(),
+                    'Validation failed',
+                    $e->status
+                );
+            }
+
+            // ✅ Default fallback
             return $this->errorResponse(
                 null,
                 $e->getMessage(),

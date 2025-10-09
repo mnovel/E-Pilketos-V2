@@ -27,6 +27,11 @@ class ElectionSessions extends Model
         'status' => 'string'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function class()
     {
         return $this->hasMany(Classes::class, 'election_session_id');

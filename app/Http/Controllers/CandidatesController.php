@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Candidates;
 use App\Http\Requests\StoreCandidatesRequest;
 use App\Http\Requests\UpdateCandidatesRequest;
+use App\Http\Resources\CandidateDetailResource;
+use App\Http\Resources\CandidateResource;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,12 +22,12 @@ class CandidatesController extends Controller
     public function index()
     {
         $candidates = Candidates::all();
-        return $this->successResponse($candidates, 'Candidates retrieved successfully');
+        return $this->successResponse(CandidateResource::collection($candidates), 'Candidates retrieved successfully');
     }
 
     public function show(Candidates $candidate)
     {
-        return $this->successResponse($candidate, 'Candidate details retrieved successfully');
+        return $this->successResponse(new CandidateDetailResource($candidate), 'Candidate details retrieved successfully');
     }
 
     public function store(StoreCandidatesRequest $request)

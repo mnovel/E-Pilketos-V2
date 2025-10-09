@@ -15,20 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         $session = ElectionSessions::create([
             'name' => 'Session 1',
             'start_date' => now(),
             'end_date' => now()->addDays(7),
         ]);
 
-        $class = $session->classes()->create([
+        $class = $session->class()->create([
             'name' => '12 Mipa 1',
             'max_users' => 30,
         ]);

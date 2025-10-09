@@ -33,13 +33,13 @@ class ClassesController extends Controller
     public function store(StoreClassesRequest $request)
     {
         $class = Classes::create($request->validated());
-        return $this->successResponse(new ClassResource($class), 'Class created successfully');
+        return $this->successResponse($class, 'Class created successfully');
     }
 
     public function update(UpdateClassesRequest $request, Classes $class)
     {
         $class->update($request->validated());
-        return $this->successResponse(new ClassResource($class), 'Class updated successfully');
+        return $this->successResponse($class, 'Class updated successfully');
     }
 
     public function destroy(Classes $class)

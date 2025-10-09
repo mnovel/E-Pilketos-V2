@@ -16,6 +16,12 @@ class ParticipantsController extends Controller
 {
     use ApiResponse;
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+        $this->middleware('role:admin');
+    }
+
     public function index()
     {
         $participants = Participants::with(['user', 'class'])
@@ -46,8 +52,6 @@ class ParticipantsController extends Controller
             }
 
             $user = User::create($validated['user']);
-
-            $user->update(['status' => 'pending']);
 
             $participant = $user->participant()->create($validated['participant']);
 

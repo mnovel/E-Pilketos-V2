@@ -14,6 +14,12 @@ class UserController extends Controller
 {
     use ApiResponse;
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+        $this->middleware('role:admin');
+    }
+
     public function index()
     {
         $users = User::where('role', '!=', 'voter')->get();

@@ -14,6 +14,12 @@ class ScanController extends Controller
 {
     use ApiResponse;
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+        $this->middleware('role:voter');
+    }
+
     public function scanCheckin(ScanCheckinRequest $request)
     {
         $data = $request->validated();
