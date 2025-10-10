@@ -40,7 +40,7 @@ class CandidateVoteByClassResource extends JsonResource
             return [
                 'id'           => $candidate->id,
                 'name'         => $candidate->name,
-                'photo'        => $candidate->photo ? asset('storage/' . $candidate->photo) : null,
+                'photo'        => $candidate->photo ? secure_asset('storage/' . $candidate->photo) : null,
                 'order_number' => (int) $candidate->order_number,
                 'total_votes'  => (int) $totalVotes,
                 'percentage'   => $percentage,
