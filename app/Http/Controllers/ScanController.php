@@ -46,6 +46,10 @@ class ScanController extends Controller
             return $this->errorResponse(null, 'Participant not found');
         }
 
+        if ($participant->user->status !== 'active') {
+            return $this->errorResponse(null, 'User account is not active');
+        }
+
         if ($participant->voting_status !== null) {
             return $this->errorResponse(null, 'Participant already checked in');
         }
