@@ -27,7 +27,7 @@ class UpdateCandidatesRequest extends FormRequest
             'mission' => 'required|string',
             'featured_program' => 'required|string',
             'order_number' => 'required|integer|unique:candidates,order_number,' . $this->route('candidate')->id,
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ];
     }
 }
