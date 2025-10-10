@@ -18,7 +18,7 @@ class CandidateDetailResource extends JsonResource
             'id' => $this->id,
             'order_number' => $this->order_number,
             'name' => $this->name,
-            'photo' => $this->photo ? asset('storage/' . $this->photo) : null,
+            'photo' => $this->photo ? secure_asset('storage/' . $this->photo) : null,
             'vision' => $this->vision,
             'mission' => $this->mission,
             'featured_program' => $this->featured_program,
