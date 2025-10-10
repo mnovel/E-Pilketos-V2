@@ -25,7 +25,7 @@ class StoreRegisterRequest extends FormRequest
             'user.name' => 'required|string',
             'user.email' => 'required|string|email|unique:users,email',
             'user.password' => 'required|string|min:6',
-            'participant.nis' => 'required|digits:10|unique:participants,nis',
+            'participant.nis' => 'required|digits:5|unique:participants,nis',
             'participant.class' => 'required|uuid|exists:classes,id',
         ];
     }
