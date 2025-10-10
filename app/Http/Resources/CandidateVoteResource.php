@@ -14,14 +14,20 @@ class CandidateVoteResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $totalVotes = $request->total_votes ?? 0;
+
+        $percentage = $totalVotes > 0
+            ? round(($this->votes_count / $totalVotes) * 100, 2)
+            : 0;
+
         return [
-            'candidate_id'   => $this->candidate_id,
+            'candidate_id'   => $this->id,
             'name'           => $this->name,
             'photo'          => $this->photo ? secure_asset('storage/' . $this->photo) : null,
             'order_number'   => $this->order_number,
             'quick_count'    => [
-                'total_votes'    => (int) $this->total_votes,
-                'percentage'     => (float) $this->percentage,
+                'total_votes'  => (int) $this->votes_count,
+                'percentage'   => (float) $percentage,
             ]
         ];
     }
