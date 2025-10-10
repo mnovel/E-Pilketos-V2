@@ -29,7 +29,7 @@ class QuickCount extends Controller
             return (object) [
                 'candidate_id' => $item->id,
                 'name'         => $item->name,
-                'photo'        => $item->photo,
+                'photo'        => $item->photo ? asset('storage/'.$item->photo) : '',
                 'order_number' => $item->order_number,
                 'total_votes'  => $item->votes_count,
                 'percentage'   => $item->percentage,
