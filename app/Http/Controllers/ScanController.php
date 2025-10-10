@@ -54,7 +54,11 @@ class ScanController extends Controller
 
         $now = now();
         if ($now->lt($electionSession->start_date) || $now->gt($electionSession->end_date)) {
-            return $this->errorResponse(null, 'Not within election session time');
+            return $this->errorResponse([
+        'now' => $now->toDateTimeString(),
+        'start' => $electionSession->start_date->toDateTimeString(),
+        'end' => $electionSession->end_date->toDateTimeString(),
+    ], 'Not within election session time');
         }
 
         $participant->update([
