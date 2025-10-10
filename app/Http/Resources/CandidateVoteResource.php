@@ -17,7 +17,7 @@ class CandidateVoteResource extends JsonResource
         return [
             'candidate_id'   => $this->candidate_id,
             'name'           => $this->name,
-            'photo'          => $this->photo ? asset($this->photo) : null,
+            'photo'          => $this->photo ? secure_asset('storage/' . $this->photo) : null,
             'order_number'   => $this->order_number,
             'quick_count'    => [
                 'total_votes'    => (int) $this->total_votes,
