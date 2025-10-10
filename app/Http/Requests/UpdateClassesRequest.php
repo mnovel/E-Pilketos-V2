@@ -23,7 +23,7 @@ class UpdateClassesRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:classes,name,' . $this->route('class')->id,
-            'max_users' => 'required|integer|min:1|max:50',
+            'max_users' => 'required|integer|min:1|max:70',
             'election_session' => 'required|uuid|exists:election_sessions,id',
         ];
     }
