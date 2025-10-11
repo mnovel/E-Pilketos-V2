@@ -28,35 +28,35 @@ class ParticipantsController extends Controller
         $query = Participants::with(['user', 'class'])
             ->whereHas('user', function ($q) {
                 $q->where('role', 'voter');
-            });
+            })->get();
 
-        if ($request->has('class_id')) {
-            $query->where('class_id', $request->class_id);
-        }
+        // if ($request->has('class_id')) {
+        //     $query->where('class_id', $request->class_id);
+        // }
 
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->whereHas('user', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('nis', 'like', "%{$search}%");
-            });
-        }
+        // if ($request->has('search')) {
+        //     $search = $request->search;
+        //     $query->whereHas('user', function ($q) use ($search) {
+        //         $q->where('name', 'like', "%{$search}%")
+        //             ->orWhere('nis', 'like', "%{$search}%");
+        //     });
+        // }
 
-        $participantsPaginator = $query->paginate(10);
+        // $participantsPaginator = $query->paginate(10);
 
-        $meta = [
-            'current_page' => $participantsPaginator->currentPage(),
-            'last_page'    => $participantsPaginator->lastPage(),
-            'per_page'     => $participantsPaginator->perPage(),
-            'total'        => $participantsPaginator->total(),
-        ];
+        // $meta = [
+        //     'current_page' => $participantsPaginator->currentPage(),
+        //     'last_page'    => $participantsPaginator->lastPage(),
+        //     'per_page'     => $participantsPaginator->perPage(),
+        //     'total'        => $participantsPaginator->total(),
+        // ];
 
-        $participants = ParticipantResource::collection($participantsPaginator);
+        $participants = ParticipantResource::collection($query);
 
         return $this->successResponse(
             [
                 'participants' => $participants,
-                'meta' => $meta
+                // 'meta' => $meta
             ],
             'Participants retrieved successfully'
         );
