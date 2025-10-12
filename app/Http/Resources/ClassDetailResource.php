@@ -31,10 +31,10 @@ class ClassDetailResource extends JsonResource
                 'total'     => $this->participants->count(),
             ],
             'participants_votes_info' => [
-                'not_started'   => $this->participants->where('voting_status', null)->count(),
-                'waiting'       => $this->participants->where('voting_status', 'waiting')->count(),
-                'in_progress'   => $this->participants->where('voting_status', 'in_progress')->count(),
-                'completed'     => $this->participants->where('voting_status', 'completed')->count(),
+                'not_started'   => $this->participants->where('user.status', 'active')->where('voting_status', null)->count(),
+                'waiting'       => $this->participants->where('user.status', 'active')->where('voting_status', 'waiting')->count(),
+                'in_progress'   => $this->participants->where('user.status', 'active')->where('voting_status', 'in_progress')->count(),
+                'completed'     => $this->participants->where('user.status', 'active')->where('voting_status', 'completed')->count(),
             ],
         ];
     }
