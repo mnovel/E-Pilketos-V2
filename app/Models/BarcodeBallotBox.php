@@ -33,6 +33,6 @@ class BarcodeBallotBox extends Model
 
     public function participant()
     {
-        return $this->belongsTo(Participants::class);
+        return $this->belongsTo(Participants::class, 'participant_id');
     }
 }
