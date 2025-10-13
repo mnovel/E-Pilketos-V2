@@ -33,7 +33,7 @@ class Participants extends Model
 
     public function BarcodeBallotBox()
     {
-        return $this->hasMany(BarcodeBallotBox::class);
+        return $this->hasMany(BarcodeBallotBox::class, 'participant_id');
     }
 
     public function votes()
