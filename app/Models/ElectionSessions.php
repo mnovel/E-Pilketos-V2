@@ -36,4 +36,13 @@ class ElectionSessions extends Model
     {
         return $this->hasMany(Classes::class, 'election_session_id');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($session) {
+            foreach ($session->class as $class) {
+                $class->delete();
+            }
+        });
+    }
 }

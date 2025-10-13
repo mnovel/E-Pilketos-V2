@@ -40,4 +40,13 @@ class Classes extends Model
     {
         return $this->hasMany(Participants::class, 'class_id');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($class) {
+            foreach ($class->participants as $participant) {
+                $participant->delete();
+            }
+        });
+    }
 }
