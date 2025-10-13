@@ -108,6 +108,10 @@ class ParticipantsController extends Controller
                 if ($status !== 'active') {
                     $participant->voting_status = null;
                     $participant->save();
+                    if ($participant->BarcodeBallotBox) {
+                        $participant->BarcodeBallotBox->participant_id = null;
+                        $participant->BarcodeBallotBox->save();
+                    }
                     $participant->votes()->delete();
                 }
             }
@@ -118,6 +122,10 @@ class ParticipantsController extends Controller
                 if ($is_reset) {
                     $participant->voting_status = null;
                     $participant->save();
+                    if ($participant->BarcodeBallotBox) {
+                        $participant->BarcodeBallotBox->participant_id = null;
+                        $participant->BarcodeBallotBox->save();
+                    }
                     $participant->votes()->delete();
                 }
             }
