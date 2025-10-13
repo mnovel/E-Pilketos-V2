@@ -31,13 +31,25 @@ class Participants extends Model
         return $this->belongsTo(Classes::class);
     }
 
-    public function barcodeCheckins()
+    public function BarcodeBallotBox()
     {
-        return $this->hasMany(BarcodeCheckin::class);
+        return $this->hasMany(BarcodeBallotBox::class);
     }
 
     public function votes()
     {
         return $this->hasMany(Votes::class, 'participant_id');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($participant) {
+            $participant->BarcodeBallotBox()->delete();
+            $participant->votes()->delete();
+
+            if ($participant->user) {
+                $participant->user->delete();
+            }
+        });
     }
 }
